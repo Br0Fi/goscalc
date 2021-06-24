@@ -76,13 +76,13 @@ On request I can provide hankel_trafo.cc or you can use any other program to do 
 + the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons.
 
 ##additional directories:
-+ autogen is supposed to generate the electron configuration (wip, not currently usable)
-+ reference_code includes code by Frigge, Majert and Talman for the spherical Hankel transformation
++ element_configs contains some example configuration files to use with wavegen and goscalc for different elements
 
 ##Known Issues:
 + the calculation of the atomic wave functions by wavegen leads to a relatively (relative to the value of the wave function at this r) significant (and unphysical) jump in the potential.
 	As this only happens at higher r (>5 Angstrom), where the potential is small anyways, it is assumed, that this doesn't lead to a significant error
-+ When compared to the GOS tables used by Gatan's 
++ When compared to the GOS tables used by Gatan's EELS Analysis (2.3.2) there is a significant qualitative difference in the GOSs, while the overall shape is very similar.
+	The difference appears to be stronger for higher l, though this hasn't been tested rigorously. It is unclear where this stems from.
 
 # Bibliography
 [1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019
