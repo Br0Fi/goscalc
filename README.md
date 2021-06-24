@@ -3,7 +3,7 @@ GOScalc
 
 This is a program to calculate the total generalized oscillator strength for a certain (sub-)orbital.
 	For specific information refer to [1] (German).
-The additional program Wavegen is based on [2] and was provided by Prof. Krüger, who modified it.
+The additional program Wavegen is based on [2] and was provided by Prof. Krüger, who modified it together with M.Frigge [3].
 
 The required class hankel_trafo.cc was excluded in the Gitlab publication because of the restrictive cpc license as it is an adapted version of
 NumSBT (aanz_v2), which was written in Fortran90 and published by Peter Koval and J.D. Talman in Computer Physics Communications in 2010.
@@ -87,3 +87,6 @@ On request I can provide hankel_trafo.cc or you can use any other program to do 
 # Bibliography
 [1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019
 [2] Hamann, Phys.Rev. B 40 (1989) 2980
+[3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174, TODO: Citation from proceedings journal
+	Calculation of relativistic differential cross-sections for use in microanalysis
+	abstract available at https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf
