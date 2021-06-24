@@ -1,0 +1,7 @@
+version.cmake
+build
+autogen*
+src/hankel_trafo.cc
+wavegen_mod/legacy
+# TODO remove after license stuff is cleared up:
+wavegen_mod
