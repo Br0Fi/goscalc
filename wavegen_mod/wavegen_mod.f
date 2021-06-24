@@ -4,7 +4,7 @@ c
 c Self-consistent solution of Kohn-Sham equation for an atom
 c with a scalar-relativistic Hamilton operator
 c
-c   Based on a program written by 
+c   Based on a program written by
 c   D. R. Hamann
 c
 c
@@ -67,7 +67,7 @@ c
         read (7,*,end=300) n(i),l(i),fs(i,1),fs(i,2)
         f(i)=fs(i,1)+fs(i,2)
         ltest= 2 *l(i) +1+ 0.000001d0
-        if(fs(i,1).gt.ltest.or.fs(i,2).gt.ltest) stop 
+        if(fs(i,1).gt.ltest.or.fs(i,2).gt.ltest) stop
      & 'Occupation is not allowed'
         if(i .eq. 1) go to 8
         if(n(i) .lt. n(i-1)) stop 'data: state order wrong'
@@ -153,20 +153,21 @@ c
       dimension vpseu(3,8192)
 	  allocate(uall(8192,30,2))
       bl=0.5d0
-c    
+c
 c     moder =1  :  with relativistic corrections
 c     moder =2  :  without relativistic corrections
-c    
+c
       it=0
       moder=2
 c
 c    Parameters of mesh
 c
 c define maximal meshpoints mmax, with r(mmax=4608)=45au
-c original contribution for mmax from the program atom.f	  
+c original contribution for mmax from the program atom.f
 c      mmax=dlog(7200.0d0*z)/al
-	  mmax=8192
-	  amesh=(45.*160.*z)**(1./mmax)
+	  mmax=2**13
+	  amesh=(30.*160.*z)**(1./mmax)
+c TODO revert 30 to 45; mmax=2**12 should be enough (consider parameter mm though)
 	  al=dlog(amesh)
 	  write(6,*)'Zahl der Netzpunkte (mmax) =',mmax
 c
@@ -295,16 +296,16 @@ c
       open(13,file='waveup.dat')
 c	  output of atomic number
 	  write(13,*) 'atomic_number',z
-c 	  output of energy in eV	  
-	  write(13,*) 'eigenvalues_eV',(es(i,1)*27.21138386d0,i=1,ncv)	  
+c 	  output of energy in eV
+	  write(13,*) 'eigenvalues_eV',(es(i,1)*27.21138386d0,i=1,ncv)
 c     output radial wavefunction
 	  write(13,*) 'unl(r)=Rnl(r)*r for spin=up in 1/sqrt(au)'
       do 200 j=1,mmax
 c     output of u(r)  for spin up
-      	write(13,203) r(j),vis(j,1),(uall(j,i,1),i=1,ncv)
+      	write(13,*) r(j),vis(j,1),(uall(j,i,1),i=1,ncv)
  200  continue
       close(13)
-	  
+
       open(13,file='wavedown.dat')
 c	  output of atomic number
 	  write(13,*) 'atomic_number',z
@@ -313,26 +314,26 @@ c     output radial wavefunction
 	  write(13,*) 'unl(r)=Rnl(r)*r for spin=down in 1/sqrt(au)'
       do 201 j=1,mmax
 c 		output of u(r)  for spin down
-      	write(13,203) r(j),vis(j,2),(uall(j,i,2),i=1,ncv)
+      	write(13,*) r(j),vis(j,2),(uall(j,i,2),i=1,ncv)
  201  continue
  203  format(f15.8,f30.8,31f15.8)
  204  format(2A11,31f20.8)
       close(13)
-	  
-c output of r(j) and vis(j,ispin)	  
-c	  open(13,file='r_v_value.dat') 
+
+c output of r(j) and vis(j,ispin)
+c	  open(13,file='r_v_value.dat')
 c		write(13,206) 'number of meshpoints: mmax=',mmax
 c		write(13,207) 'mesh spacing: amesh=',amesh
 c		write(13,207) 'atomic number: Z=',z
 c		write(13,208) 'r(j) in [au]','v(j) in [Hartree] spin=up'
-c     &   ,'v(j) in [Hartree] spin=down'		
-		
+c     &   ,'v(j) in [Hartree] spin=down'
+
 c		do 210 j=1,mmax
 c			write(13,205) r(j),vis(j,1),vis(j,2)
 c 210	continue
-c	  close(13)	
+c	  close(13)
  205  format(f15.8,2f30.8)
- 206  format(A10,I10) 
+ 206  format(A10,I10)
  207  format(A10,f15.8)
  208  format(A15,2A30)
       return
@@ -375,8 +376,8 @@ c
       else
 c        fss=1.0d-20
 		fss=0.0d0
-c 	fss is the fine strukture constante fss=0-->  
-c	Kohn-Sham-equation(fss=0)=Schr\F6dinger-equation		
+c 	fss is the fine strukture constante fss=0-->
+c	Kohn-Sham-equation(fss=0)=Schr\F6dinger-equation
         gamma=l+1
       end if
 c
@@ -541,7 +542,7 @@ c convergence test and possible exit
 c
         if(dabs(de) .lt. dmax1(dabs(e),0.2d0)*eps) return
 c
-        if(de .gt. 0.0d0) then 
+        if(de .gt. 0.0d0) then
           emin=e
         else
           emax=e
@@ -661,7 +662,7 @@ c
 c
       foutv(i)=rho(i)*vo(i)*r(i)**3
       foutx(i)=rhos(i,1)*difxc(i)*r(i)**3+rhos(i,2)*difxcm(i)*r(i)**3
-      
+
 c
       e43=4.d0/3.d0
       e13=1.d0/3.d0
@@ -761,7 +762,7 @@ c30    difxc(i,j)=(ex)*rhos(i,j)
       vos(i,j)=vx
 c     write(6,*)i,vos(i,j)
  3    continue
- 
+
  10   continue
       do 4 i=1,mmax
  4    exx(i)=(difxc(i,1)+difxc(i,2))*r(i)**3
@@ -775,7 +776,7 @@ c     write(6,*)'Austauschanteil',eexc
 c     write(6,*)r(i),vos(i,1),vos(i,2),eexc
 
 
-c    
+c
 c     Korrelationsanteil
 c
       do 15 i=1,mmax
@@ -803,7 +804,7 @@ c     call eabl(x,mmax,mm,da,r,al)
       dvcup=00.0d0
       dvcdn=0.0d0
       goto 40
-      endif 
+      endif
       rs=(fak/d)**ed
       kf=fak2/rs
       ks=dsqrt(fak3*kf)

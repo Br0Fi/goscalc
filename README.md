@@ -18,7 +18,6 @@ On request I can provide hankel_trafo.cc or you can use any other program to do 
 ## Installation and compiling (Linux systems):
 + Libraries used: Armadillo, FFTW, Boost, WignerSymbols
 	+ WignerSymbols can be found at: https://github.com/joeydumont/wignerSymbols
-
 + create directory build (if it doesn't exist already) and cd into it
 ```bash 
 	mkdir build/
