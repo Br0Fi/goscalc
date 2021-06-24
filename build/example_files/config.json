@@ -1,0 +1,11 @@
+{
+	"dft_filename": "waveup.dat",
+	"output_dir_name": "Cu",
+	"n_bound": 3,
+	"l_bound": 1,
+	"max_considered_lfree": 15,
+	"energy_free_start": 12.3,
+	"energy_free_steps": 8,
+	"energy_free_increase":20,
+	"max_kvalue_Ang": 70
+}
