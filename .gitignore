@@ -1,6 +1,7 @@
+!.gitignore
 version.cmake
-build
-!build/example_files/*
+build/*
+!build/example_files/
 autogen*
 src/hankel_trafo.cc
 wavegen_mod/legacy
