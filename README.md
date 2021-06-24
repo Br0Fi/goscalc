@@ -1,5 +1,6 @@
-GOScalc
-=======
+# GOScalc
+
+## Introduction
 
 This is a program to calculate the total generalized oscillator strength for a certain (sub-)orbital.
 	For specific information refer to [1] (German).
@@ -14,11 +15,11 @@ The original version is NumSBT (aanz_v2), which was written in Fortran90 and pub
 	 (corresponding article: https://www.sciencedirect.com/science/article/pii/S0010465508003329 ; here the link to the program is broken)
 On request I can provide hankel_trafo.cc or you can use any other program to do the hankel/spherical bessel transformation or incorporate the fortran program above.
 
-##Installation and compiling (Linux systems):
+## Installation and compiling (Linux systems):
 + Libraries used: Armadillo, FFTW, Boost, WignerSymbols
--TODO: meinen Installations-Zettel finden und abschreiben, wenn das noch nötig ist
+	+ WignerSymbols can be found at: https://github.com/joeydumont/wignerSymbols
 
-+ create directory build and cd into it
++ create directory build (if it doesn't exist already) and cd into it
 ```bash 
 	mkdir build/
 	cd build/
@@ -32,7 +33,8 @@ On request I can provide hankel_trafo.cc or you can use any other program to do 
 	gfortran -std=legacy -o wavegen_mod wavegen_mod.f
 ```
 
-## Usage:
+## Usage
+
 + create the wavegen.dat file:
 	The config file for wavegen should be named wavegen.dat.
 	It tells the program which exchange-correlation (XC) functional to use,
@@ -40,14 +42,14 @@ On request I can provide hankel_trafo.cc or you can use any other program to do 
 	The electron configuration is described in rows, where each row contains the principal quantum number (n),
 	the azimuthal quantum number (l) and the occupation number (ON) separated by spin direction (ONup and ONdown).
 	Conceptually, the config file for wavegen looks like this:
-	
+	```
 	XC-functional
 	Z
 	n l ONup ONdown
 	n l ONup ONdown
 	...............
 	n l Onup Ondown
-	
+	```	
 	With the quantum numbers n,l and the number of electrons with spin up or down for that subshell.
 	Empty shells should not be listed.
 	
@@ -55,36 +57,36 @@ On request I can provide hankel_trafo.cc or you can use any other program to do 
 	Example files are provided for copper, silicon, carbon and lead.
 	These need to be renamed to wavegen.dat for usage.
 	Notice: The spin is not maximized correctly as according to Hund's second rule.
-          This is because goscalc doesn't include spin effects.
-          So instead spin is equally distributed; with the excess electron for
-          odd numbers put as spin down because later the spinup file is used
-          (reduces effect of imbalance).
-    Electron configurations can be looked up here: https://sciencenotes.org/list-of-electron-configurations-of-elements/
+        	This is because goscalc doesn't include spin effects.
+        	So instead spin is equally distributed; with the excess electron for
+        	odd numbers put as spin down because later the spinup file is used
+        	(reduces effect of imbalance).
+	Electron configurations can be looked up here: https://sciencenotes.org/list-of-electron-configurations-of-elements/
 + execute wavegen in the same directory
 + place the waveup.dat file in the same directory as the config.json and the goscalc executable
 + fill in config.json with the desired parameters and the output directory name
 + execute goscalc.
 + alternatively you can pass the path to the config file as a command line argument
 
-## Output:
+### Output:
 	The output directory includes a copy of the config file, the command line log,
 	the k values in k.dat, the corresponding generalized oscillator strengths in gos.dat for the 
 	energy losses, which result from the desired free energies saved in free_energies.dat.
 	
-## Restrictions:
-+ GOS for ions can not be calculated, because their atomic potential does not fall of to zero within the mesh given by wavegen
+### Restrictions:
++ GOS for ions can not be calculated, because their atomic potential does not fall off to zero within the mesh given by wavegen (or at all, technically), but contwace.c requires this.
 + the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons.
 
-##additional directories:
+## Additional Directories:
 + element_configs contains some example configuration files to use with wavegen and goscalc for different elements
 
-##Known Issues:
+### Known Issues:
 + the calculation of the atomic wave functions by wavegen leads to a relatively (relative to the value of the wave function at this r) significant (and unphysical) jump in the potential.
 	As this only happens at higher r (>5 Angstrom), where the potential is small anyways, it is assumed, that this doesn't lead to a significant error
 + When compared to the GOS tables used by Gatan's EELS Analysis (2.3.2) there is a significant qualitative difference in the GOSs, while the overall shape is very similar.
 	The difference appears to be stronger for higher l, though this hasn't been tested rigorously. It is unclear where this stems from.
 
-# Bibliography
+## Bibliography
 [1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019
 [2] Hamann, Phys.Rev. B 40 (1989) 2980
 [3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174, TODO: Citation from proceedings journal
