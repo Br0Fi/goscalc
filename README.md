@@ -40,9 +40,10 @@ Compile wavegen_mod with:
     + The config file for wavegen should be named wavegen.dat.
     +	It tells the program which exchange-correlation (XC) functional to use,
         the atomic number (Z) of the simulated atom and its electron configuration.
+        + Options for the XC functional are LDA (Local-Density Approximation) and GGA (Generalized Gradient Approximation). LDA is recommended.
 	+ The electron configuration is given in rows, where each row contains the principal quantum number (n),
 	   the azimuthal quantum number (l) and the occupation number (ON) separated by spin direction (ONup and ONdown).
-    + Conceptually, the wavegen.dat looks like this:
+    + Conceptually, the wavegen.dat then looks like this:
 
 
             XC-functional
