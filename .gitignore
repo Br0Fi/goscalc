@@ -1,8 +1,16 @@
+# ignore all binaries:
+# Ignore all
+*
+# Unignore all with extensions
+!*.*
+# Unignore all dirs
+!*/
+
 !.gitignore
-version.cmake
 build/*
 !build/example_files/
 autogen*
 src/hankel_trafo.cc
 wavegen_mod/legacy
 wavegen_mod/notes.txt
+

@@ -13,10 +13,11 @@ The original version is NumSBT (aanz_v2), which was written in Fortran90 and pub
 	 v2: [https://data.mendeley.com/datasets/y294ttxyw4/1](https://data.mendeley.com/datasets/y294ttxyw4/1)  
 	 v3: [https://data.mendeley.com/datasets/m3fc83rytv/1]( https://data.mendeley.com/datasets/m3fc83rytv/1)  
 	 ([corresponding article](https://www.sciencedirect.com/science/article/pii/S0010465508003329 ); here the link to the program is broken)
-On request I can provide hankel_trafo.cc or you can use any other program to do the hankel/spherical bessel transformation or incorporate the fortran program above.
+On request I will gladly provide hankel_trafo.cc or you can use any other program to do the hankel/spherical bessel transformation or incorporate the fortran program above. goscalc will not function without it.
 
 ## Installation and compiling (Linux systems):
-Libraries used: Armadillo, FFTW, Boost, WignerSymbols. WignerSymbols can be found [here](https://github.com/joeydumont/wignerSymbols)
+Libraries used: Armadillo (requiring OpenBLAS or standard BLAS and LAPACK), FFTW, Boost, WignerSymbols. WignerSymbols can be found [here](https://github.com/joeydumont/wignerSymbols)<!--- TODO: is superlu needed?-->  
+Make sure you have cmake, make and a fortran and c++ compiler installed (gfortran, gcc).
 
 Create directory build (if it doesn't exist already) and cd into it:
 ```bash
@@ -25,7 +26,8 @@ Create directory build (if it doesn't exist already) and cd into it:
 ```
 Compile with cmake and make:
 ```bash
-	cmake && make
+    cmake ..
+     make
 ```
 Compile wavegen_mod with:
 ```bash
@@ -42,14 +44,13 @@ Compile wavegen_mod with:
 	   the azimuthal quantum number (l) and the occupation number (ON) separated by spin direction (ONup and ONdown).
     + Conceptually, the wavegen.dat looks like this:
 
-            ```
+
             XC-functional
             Z
             n l ONup ONdown
             n l ONup ONdown
             ...............
             n l Onup Ondown
-            ```
 
     + With the quantum numbers n,l and the number of electrons with spin up or down for that subshell.
 	   Empty shells should not be listed.
@@ -81,14 +82,14 @@ Compile wavegen_mod with:
     the k values in k.dat, the corresponding generalized oscillator strengths in gos.dat for the
 	energy losses, which result from the desired free energies saved in free_energies.dat.
 
+### Additional Directories:
++ element_configs contains some example configuration files to use with wavegen and goscalc for different elements
+
 ### Restrictions:
 + GOS for ions can not be calculated, because their atomic potential does not fall off to zero within the mesh given by wavegen (or at all, technically), but contwace.c requires this.
 + the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons.
 
-## Additional Directories:
-+ element_configs contains some example configuration files to use with wavegen and goscalc for different elements
-
-### Known Issues:
+## Known Issues:
 + The calculation of the atomic wave functions by wavegen leads to a relatively (relative to the value of the wave function at this r) significant (and unphysical) jump in the potential.
 	As this only happens at higher r (>5 Angstrom), where the potential is small anyways, it is assumed, that this doesn't lead to a significant error
 + When compared to the GOS tables used by Gatan's EELS Analysis (2.3.2) there is a significant qualitative difference in the GOSs, while the overall shape is very similar.
