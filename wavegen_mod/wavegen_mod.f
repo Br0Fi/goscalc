@@ -169,13 +169,12 @@ c      mmax=dlog(7200.0d0*z)/al
 	  rmax=45.
 	  amesh=(rmax*160.*z)**(1./mmax)
 c rmax gives the maximum r of the lattice
-c rmax = 30. leads to strange results => TODO maybe the mesh is still not large enough? actually it should be, as the wavefunctions fall of to zero at ~21A already.
-c maybe the larger lattice is still necessary for calculations somehow?
-c maybe it's generally not large enough for higher Z atoms?
+c rmax = 30. leads to strange results from GOScalc (!?)
+c mesh should be large enough at 45au for sure even for very heavy atoms
 c TODO Test:
-c 1. difference in results depending on rmax
-c 2. test 1. again for a large Z atom (Pb)
-c TODO mmax=2**12 should be enough (consider parameter mm though)
+c 1. difference in results of wavegen depending on rmax => results in no meaningful difference, though for very large atoms rmax should probably be >=30.
+c 2. difference in results of goscalc dependin on rmax
+c TODO mmax=2**11 should be enough (consider parameter mm though)
 	  al=dlog(amesh)
 	  write(6,*)'Zahl der Netzpunkte (mmax) =',mmax
 c

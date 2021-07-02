@@ -60,8 +60,8 @@ Compile wavegen_mod with:
 	+ These need to be renamed to wavegen.dat for usage.
 	+ Notice: The spin is not maximized correctly as according to Hund's second rule.
         + 	This is because goscalc doesn't include spin effects.
-        	     So instead spin is equally distributed; with the excess electron for odd numbers of electrons put as spin down because later the spinup file is used
-            	(reduces effect of imbalance).
+        	     So instead spin is equally distributed; with the excess electron for odd numbers of electrons put as spin down because later the file waveup.dat (containing electrons with spin up) is used
+            	(this reduces the effect of the imbalance).
 	Electron configurations can be looked up [here](https://sciencenotes.org/list-of-electron-configurations-of-elements/).
 + execute wavegen in the same directory
 ```bash
