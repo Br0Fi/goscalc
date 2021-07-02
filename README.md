@@ -45,7 +45,6 @@ Compile wavegen_mod with:
 	   the azimuthal quantum number (l) and the occupation number (ON) separated by spin direction (ONup and ONdown).
     + Conceptually, the wavegen.dat then looks like this:
 
-
             XC-functional
             Z
             n l ONup ONdown
@@ -55,6 +54,7 @@ Compile wavegen_mod with:
 
     + With the quantum numbers n,l and the number of electrons with spin up or down for that subshell.
 	   Empty shells should not be listed.
+    + See Example Files for examples of wavegen.dat
 
 + Example files are provided for copper, silicon, carbon and lead.
 	+ These need to be renamed to wavegen.dat for usage.
@@ -69,6 +69,30 @@ Compile wavegen_mod with:
 ```
 + place the waveup.dat file in the same directory as the config.json and the goscalc executable
 + fill in config.json with the desired parameters and the output directory name
+    + the config.json looks like this:
+
+            {
+            	"dft_filename": "waveup.dat",
+            	"output_dir_name": "C",
+            	"n_bound": 1,
+            	"l_bound": 0,
+            	"max_considered_lfree": 15,
+            	"energy_free_start": 10.5,
+            	"energy_free_steps": 8,
+            	"energy_free_increase":20,
+            	"max_kvalue_Ang": 70
+            }
+
+    + These values denote:
+        + dft_filename is the name of the file given by wavegen containing the bound electron wave functions
+        + output_dir_name is the name the output files will be written to
+        + n_bound, l_bound denote the subshell for which the GOS is to be computed
+        + max_considered_lfree is the maximum angular quantum number l  to be considered for the ejected electron
+        + energy_free_start is the lowest energy loss for which the GOS will be computed
+        + energy_free_steps the number of energy loss steps  for which the GOS will be computed
+        + energy_free_increase the size of each of these steps
+        + max_kvalue_Ang up to which wavenumber k_{N-1} value the GOS will be computed. This is used in conjuction with the size of the real space lattice (r_0 and r_{N-1}) given in the wavegen output file to determine the minimum wavenumber k_0 = k_{N-1} * r_0 / r_{N-1}
+    + See Example Files for examples of wavegen.dat
 + execute goscalc
 ```bash
     ./goscalc
@@ -83,8 +107,10 @@ Compile wavegen_mod with:
     the k values in k.dat, the corresponding generalized oscillator strengths in gos.dat for the
 	energy losses, which result from the desired free energies saved in free_energies.dat.
 
-### Additional Directories:
-+ element_configs contains some example configuration files to use with wavegen and goscalc for different elements
+### Example files:
+element_configs contains some example configuration files to use with wavegen and goscalc for different elements XY.
+The directories  XY_cfg contain the config files for wavegen (wavegen.dat) and goscalc (config.json) as well as the resulting wavefunctions calculated by wavegen (waveup.dat).  
+You can check your results, by comparing them to the output files given in element_configs/XY
 
 ### Restrictions:
 + GOS for ions can not be calculated, because their atomic potential does not fall off to zero within the mesh given by wavegen (or at all, technically), but contwace.c requires this.
@@ -97,7 +123,7 @@ Compile wavegen_mod with:
 	The difference appears to be stronger for higher l, though this hasn't been tested rigorously. It is unclear where this stems from.
 
 ## Bibliography
-[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 <!---TODO: Add link to AG Website as soon as thesis is up-->
+[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 <!---TODO: Add link to AG Website as soon as thesis is up-->  
 [2] Hamann, Phys.Rev. B 40 (1989), 2980  
 [3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174, <!--- TODO: Citation from proceedings journal -->
-	Calculation of relativistic differential cross-sections for use in microanalysis. Abstract available at [https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf)
+	Calculation of relativistic differential cross-sections for use in microanalysis. Abstract available at [https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf)  

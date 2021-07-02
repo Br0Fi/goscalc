@@ -139,8 +139,8 @@ c
       double precision dlog, dr, e, eeel, eexc, et, f, r, rho,esum
       double precision rl, rl1, rpk, sd, sf, sn, tfapot, thl, u, uld
       double precision up, vi, vi1, vn, vo, vo1, z, zion,es,vos,fs
-      double precision bplus,bminus,btotal,vpseu
-	  double precision,allocatable,dimension(:,:,:) :: uall
+      double precision bplus,bminus,btotal,vpseu, rmax
+      double precision,allocatable,dimension(:,:,:) :: uall
       integer i, iexc, it, j, l, mch, mmax, n, ncv, nin,ispin
       integer moder
       logical convg
@@ -166,8 +166,16 @@ c define maximal meshpoints mmax, with r(mmax=4608)=45au
 c original contribution for mmax from the program atom.f
 c      mmax=dlog(7200.0d0*z)/al
 	  mmax=2**13
-	  amesh=(30.*160.*z)**(1./mmax)
-c TODO revert 30 to 45; mmax=2**12 should be enough (consider parameter mm though)
+	  rmax=45.
+	  amesh=(rmax*160.*z)**(1./mmax)
+c rmax gives the maximum r of the lattice
+c rmax = 30. leads to strange results => TODO maybe the mesh is still not large enough? actually it should be, as the wavefunctions fall of to zero at ~21A already.
+c maybe the larger lattice is still necessary for calculations somehow?
+c maybe it's generally not large enough for higher Z atoms?
+c TODO Test:
+c 1. difference in results depending on rmax
+c 2. test 1. again for a large Z atom (Pb)
+c TODO mmax=2**12 should be enough (consider parameter mm though)
 	  al=dlog(amesh)
 	  write(6,*)'Zahl der Netzpunkte (mmax) =',mmax
 c
