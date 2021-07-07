@@ -9,7 +9,6 @@
 !.gitignore
 build/*
 autogen*
-src/hankel_trafo.cc
 wavegen_mod/legacy
 wavegen_mod/notes.txt
 
