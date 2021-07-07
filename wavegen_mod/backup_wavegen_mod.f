@@ -165,15 +165,14 @@ c
 c define maximal meshpoints mmax, with r(mmax=4608)=45au
 c original contribution for mmax from the program atom.f
 c      mmax=dlog(7200.0d0*z)/al
-	  mmax=2**13
+	  mmax=2**10
 	  rmax=45.
 	  amesh=(rmax*160.*z)**(1./mmax)
 c rmax gives the maximum r of the lattice
 c rmax = 30. leads to strange results from GOScalc (!?)
 c mesh should be large enough at 45au for sure even for very heavy atoms
-c TODO Test:
-c 1. difference in results of wavegen depending on rmax => results in no meaningful difference, though for very large atoms rmax should probably be >=30.
-c 2. difference in results of goscalc dependin on rmax
+c difference in rmax results in no meaningful difference in the output, though for very heavy atoms rmax should atleast be >=30.
+c not tested: difference in results of goscalc depending on rmax (rmax=30. lead to strange results at one point)
 c TODO mmax=2**11 should be enough (consider parameter mm though)
 	  al=dlog(amesh)
 	  write(6,*)'Zahl der Netzpunkte (mmax) =',mmax
@@ -721,6 +720,8 @@ c
       end
       subroutine  GRADK(RHOS,RHO,VOS,MMAX,R,al,EEXC,iexc)
       parameter(mm=8192)
+c changed from parameter (mm=8192)
+c TODO test what happens with mm!=mmax
       implicit real*8 (a-h,o-z)
       real*8 kf,ks
       dimension r(mm),rho(mm),rhos(mm,2),vos(mm,2),ea(mm),za(mm),
