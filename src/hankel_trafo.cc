@@ -3,6 +3,7 @@
 #include<cmath>
 #include<cassert>
 #include<vector>
+#include <fstream> //TODO remove
 
 //This is a program to run an example of the spherical Bessel transformation also known as the hankel transformation.
 //The original version is NumSBT (aanz_v2), which was written in Fortran90 and published by Peter Koval and J.D. Talman in Computer Physics Communications in 2010. (CPC license)
@@ -141,24 +142,24 @@ Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_m
 
 
         //http://fftw.org/fftw3_doc/One_002dDimensional-DFTs-of-Real-Data.html#One_002dDimensional-DFTs-of-Real-Data
-          //demands a length of 2*(n+1) for the real arrays with the first n
-          //being padding.
-        //sizeof(double)*2 for complex arrays
-        // r2c_in is n=samples*2 long. according to the link above,
+        //demands a length of 2*(n+1) for the real arrays with the first n
+        //being padding.
+        // here: n = samples*2 = samples2
+        // r2c_in is n=samples2 long. according to the link above,
           //r2c_out has to be n/2+1 long. This is in complex numbers making the
-          //necessary allocated space equal to 2*samples+2
-	  // TODO why not samples+2 ?
+          //necessary allocated space equal to samples2+2
+        //sizeof(double)*2 gives allocated space for complex arrays
         temp1 = reinterpret_cast<std::complex<double>*>(
                   fftw_malloc(samples2 * sizeof(double)*2));
         temp2 = reinterpret_cast<std::complex<double>*>(
                   fftw_malloc(samples2 * sizeof(double)*2));
-        r2c_in = reinterpret_cast<double*>( //real, size = nr*2
+        r2c_in = reinterpret_cast<double*>(                 //real
                   fftw_malloc((samples2)*sizeof(double)));
-        r2c_out = reinterpret_cast<std::complex<double>*>( //complex, size = nr+1
+        r2c_out = reinterpret_cast<std::complex<double>*>(  //complex
                     fftw_malloc((samples2 + 2)*sizeof(double)));
-        c2r_in = reinterpret_cast<std::complex<double>*>( //complex, size = nr+1
+        c2r_in = reinterpret_cast<std::complex<double>*>(   //complex
                     fftw_malloc((samples2 + 2)*sizeof(double)));
-        c2r_out = reinterpret_cast<double*>( //real, size = nr*2
+        c2r_out = reinterpret_cast<double*>(                //real
                     fftw_malloc(samples2*sizeof(double)));
 
         //check for NULL pointers:
@@ -201,7 +202,7 @@ Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_m
 
         //originally: dr = std::log(rr_fixed[1]/rr_fixed[0]);
           //this lead to numerical problems with samples=2^13
-        dr = std::log(rr_fixed[samples-1]/rr_fixed[0]) / samples;
+        dr = std::log(rr_fixed[samples-1]/rr_fixed[0]) / (samples-1);
         dt = 2.0*M_PI/(samples2*dr);
 
         sbt_rmin = rmin;
@@ -213,7 +214,7 @@ Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_m
         //fourier transform of delta peak at x=0 should be vertical line at y=1.
         //therefore the sum over y at samples*2 data points should be equal to
         //the number of data points.
-          //uncomment if you want to perform the test
+        //uncomment if you want to perform the test
         /*
         for(unsigned int i=0; i<samples2; ++i){
           temp1[i] = 0.0;
@@ -235,13 +236,28 @@ Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_m
         // Obtain the r values for the extended mesh, and the values r_i^1.5
         //  in the arrays smallr and premult
         factor = std::exp(dr);
+        for(size_t i=0; i<samples; ++i){
+          smallr[i] = rr_fixed[0] * pow(factor , static_cast<double>(static_cast<int>(i) - static_cast<int>(samples)));
+          //smallr[i]=rr_f0/fac^(samples-i)
+        }
+        /* same as [A]
+        // old iterative version, equivalent:
         smallr[samples-1] = rr_fixed[0]/factor;
         for(unsigned int i=samples-2; i+1 > 0; --i){
-          //circuituos way of counting to 0 with unsigned without warnings
+        //just a circuituos way of counting to 0 with unsigned ints without generating warnings
           smallr[i]=smallr[i+1]/factor;
         }
-        //fills premult from samples to 2*samples-1 and then from samples-1 to 0.
+        */
+        // r_i^1.5 :
         factor = std::exp(1.5*dr);
+        for(size_t i=0; i<samples2; ++i){
+          premult[i] = pow(factor , static_cast<double>(static_cast<int>(i) - static_cast<int>(samples)));
+        }
+        //fills premult from samples to 2*samples-1 and then from samples-1 to 0.
+        // [A] This was done iteratively in fortran, was changed to more intuitive version,
+            //without noticable change in computation time (not extensively tested)
+
+        /* old iterative version, equivalent in results
         premult[samples] = 1.0;
         for(unsigned int i=1; i<samples; ++i){
           premult[samples+i] = factor*premult[samples+i-1];
@@ -250,7 +266,7 @@ Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_m
         for(unsigned int i=1; i<samples; i++){
           premult[samples-i-1] = premult[samples-i]/factor;
         }
-
+        */
 
         //Obtain the values 1/k_i^1.5 in the array postdivide
         postdiv[0] = (constants::with_sqrt_pi_2 ? 1.0/sqrt(M_PI/2) : 1.0);
@@ -381,13 +397,19 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
 
     // Make the calculation for LARGE k values extend the input
     // to the doubled mesh, extrapolating the input as C r^(np+li)
-
+    //std::ofstream outFileR("test_output_r.txt"); //TODO remove; just replaces the file a bunch of times, but that's fine, I can just test for the last occurance
     for(unsigned int i=0; i<samples; ++i){
       r2c_in[i] = bigC * premult[i] * std::pow(smallr[i], constants::np + li);
     }
     for(unsigned int i=samples; i<samples2; ++i){
       r2c_in[i] = premult[i]*ff[i-samples];
+
     }
+    for(unsigned int i=0; i<samples; ++i){
+      //outFileR << ff[i] << "\n"; //TODO remove
+    }
+    //outFileR << smallr[i] << "\n"; //TODO remove
+    
     fftw_execute(plan_r2c);
 
     // obtain the large k results in the vector gg
@@ -409,7 +431,7 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
         r2c_in[i] = sbt_rr3[i] * ff[i];
       }
     }
-    else{
+    else{	
       for(unsigned int i=0; i<samples; ++i){
         r2c_in[i] = sbt_kk3[i] * ff[i];
       }
@@ -419,10 +441,18 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
       r2c_in[i] = 0.0;
     }
     fftw_execute(plan_r2c);
-
     for(unsigned int i=0; i<samples+1; ++i){
       c2r_in[i] = conj(r2c_out[i]) * mult_table2[i][li];
+      //outFileR << real(c2r_in[i]) << "\n"; //TODO remove
+      //outFileI << imag(c2r_in[i]) << "\n"; //TODO remove
     }
+    // testing start; TODO: remove:
+/*
+    #include <fstream>
+    std::ofstream outFile("test_output.txt");
+    for (const auto &test_v_elem.real : c2r_in) outFile << test_v_elem << "\n";
+*/
+    // testing end
     fftw_execute(plan_c2r);
     for(unsigned int i=0; i<samples; ++i){ //was 2 seperate loops in fortran
       c2r_out[i] = c2r_out[i] * dr;

@@ -7,7 +7,8 @@
 
 #include"goscalc_constants.hpp"
 
-
+#include<fstream> //TODO remove
+#include <iostream> //TODO remove
 
 
 std::vector<double> calc_energy_losses(const Goscalc_shared_data& gsd){
@@ -37,12 +38,21 @@ Value_pairs calculate_gos(unsigned int index_eloss, Hankel_trafo& trafo_plan, co
     int upper_valid_lambda = static_cast<int>(lfree+l);
 
 
+    //std::cout << "lfree: " << gsd.free_waves[index_eloss].size()-1 << "\n";
+    if (index_eloss == 8 && lfree==15){ //TODO remove
+      std::ofstream outFile("test_output_calcgos.txt"); //remove; just replaces the file a bunch of times, but that's fine, I can just test for the last occurance
+      const std::vector<double> output = integrand.column_as_vector(1); //remove
+      for(unsigned int i=0; i<output.size(); ++i){
+        outFile << output[i] << "\n"; //remove
+      }
+      std::cout << ".. : " << consttest << "\n";
+    }
 
 
 
     for (int lambda = lower_valid_lambda; lambda<=upper_valid_lambda; lambda++){
       double wigner_symb = WignerSymbols::wigner3j(lfree,lambda,l,0,0,0);
-      if (wigner_symb == 0){continue;} //TODO comparing doubles with == is bad practice
+      if (wigner_symb == 0.){continue;} //TODO comparing doubles with == is bad practice
 
       const Value_pairs rad_int = trafo_plan.perform_hankel_trafo(integrand.column_as_vector(1), static_cast<unsigned int>(lambda));
 
@@ -58,7 +68,7 @@ Value_pairs calculate_gos(unsigned int index_eloss, Hankel_trafo& trafo_plan, co
 
 
 
-  const arma::colvec inv_q2 = arma::pow(result.column_as_colvec(0),-2); //getestet. tut
+  const arma::colvec inv_q2 = arma::pow(result.column_as_colvec(0),-2);
   const double energy_loss = gsd.results_energy_losses[index_eloss];
   const arma::colvec prefactor = cst::m_e2dhbarh2*energy_loss*inv_q2; //unitless(!)
 
@@ -70,7 +80,7 @@ Value_pairs calculate_gos(unsigned int index_eloss, Hankel_trafo& trafo_plan, co
 
 }
 
-/*For testing purposes include 
+/*For testing purposes (by pasting at the appropriate positions into the above)
 
 #include<fstream> 
 #include<vector>
