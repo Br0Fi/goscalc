@@ -1,22 +1,15 @@
 # GOScalc
 
-## Introduction
+## Introduction and credits
 
 This is a program to calculate the total generalized oscillator strength for a certain (sub-)orbital.
-For specific information refer to [1] (German).  
-The additional program Wavegen is based on [2] and was provided by Prof. Krüger, who modified it together with M.Frigge [3].
-
-The required class hankel_trafo.cc was excluded in the Gitlab publication because of the restrictive CPC license as it is an adapted version of
-NumSBT (aanz_v2), which was written in Fortran90 and published by Peter Koval and J.D. Talman in Computer Physics Communications in 2010.
-This was published under the CPC licence which forbids republication even in adapted form unless permission is given (which I didn't request).
-The original version is NumSBT (aanz_v2), which was written in Fortran90 and published by Peter Koval and J.D. Talman in Computer Physics Communications in 2010. (CPC license)  
-	 v2: [https://data.mendeley.com/datasets/y294ttxyw4/1](https://data.mendeley.com/datasets/y294ttxyw4/1)  
-	 v3: [https://data.mendeley.com/datasets/m3fc83rytv/1]( https://data.mendeley.com/datasets/m3fc83rytv/1)  
-	 ([corresponding article](https://www.sciencedirect.com/science/article/pii/S0010465508003329 ); here the link to the program is broken)
-On request I will gladly provide hankel_trafo.cc or you can use any other program to do the hankel/spherical bessel transformation or incorporate the fortran program above. goscalc will not function without it.
+For specific information refer to [1] (German).
+The project was taken over from Dr. Stephan Müller.
+The additional program Wavegen is based on [2] and was provided by Prof. Krüger, who modified it together with M.Frigge [3].  
+The Hankel transformation in hankel_trafo.cc is an adapted version of NumSBT (aanz_v2), which was written in Fortran90 and published as [4].  
 
 ## Installation and compiling (Linux systems):
-Libraries used: Armadillo (requiring OpenBLAS or standard BLAS and LAPACK), FFTW, Boost, WignerSymbols. WignerSymbols can be found [here](https://github.com/joeydumont/wignerSymbols)<!--- TODO: is superlu needed?-->  
+Libraries used: Armadillo (requiring standard BLAS+LAPACK or OpenBLAS), FFTW, Boost, WignerSymbols. WignerSymbols can be found [here](https://github.com/joeydumont/wignerSymbols)<!--- TODO: is superlu needed?-->  
 Make sure you have cmake, make and a fortran and c++ compiler installed (gfortran, gcc).
 
 Create directory build (if it doesn't exist already) and cd into it:
@@ -37,7 +30,7 @@ Compile wavegen_mod with:
 ## Usage
 
 + create the wavegen.dat file:
-    + The config file for wavegen should be named wavegen.dat.
+    + The config file for wavegen should be named wavegen.dat and be placed in the same directory as wavegen.
     +	It tells the program which exchange-correlation (XC) functional to use,
         the atomic number (Z) of the simulated atom and its electron configuration.
         + Options for the XC functional are LDA (Local-Density Approximation) and GGA (Generalized Gradient Approximation). LDA is recommended.
@@ -67,7 +60,7 @@ Compile wavegen_mod with:
 ```bash
     ./wavegen
 ```
-+ ignore the warning about floating point exceptions (unclear, but doesn't seem to matter)
++ ignore the warning about floating point exceptions (doesn't seem to matter)
 + place the waveup.dat file in the same directory as the config.json and the goscalc executable
 + fill in config.json with the desired parameters and the output directory name
     + the config.json looks like this:
@@ -93,7 +86,7 @@ Compile wavegen_mod with:
         + energy_free_steps the number of energy loss steps  for which the GOS will be computed
         + energy_free_increase the size of each of these steps
         + max_kvalue_Ang up to which wavenumber k_{N-1} value the GOS will be computed. This is used in conjuction with the size of the real space lattice (r_0 and r_{N-1}) given in the wavegen output file to determine the minimum wavenumber k_0 = k_{N-1} * r_0 / r_{N-1}
-    + See Example Files for examples of wavegen.dat
+    + See Example Files for examples of config.json
 + execute goscalc
 ```bash
     ./goscalc
@@ -103,7 +96,7 @@ Compile wavegen_mod with:
     ./goscalc /path/to/config.json
 ```
 
-+ The mesh goscalc uses is the one given by wavegen (and the reciprocal lattice is inferred in combination with max_kvalue_Ang in config.json, see above). To change the number of mesh points or the mesh parameter you have to edit the parameters mmax and rmax, respectively, in wavegen_mod.f. Mesh sizes of mmax=2^14 or more lead to issues in wavegen. If this is necessary, increasing the maximum number of iterations might help.
++ The mesh goscalc uses is the one given by wavegen (and the reciprocal lattice is inferred in combination with max_kvalue_Ang in config.json, see above). To change the number of mesh points or the mesh parameter you have to edit the parameters mmax and rmax, respectively, in wavegen_mod.f.
 
 ### Output:
 	The output directory includes a copy of the config file, the command line log,
@@ -120,13 +113,15 @@ You can check your results, by comparing them to the output files given in eleme
 + the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons.
 
 ## Known Issues:
-+ The calculation of the atomic wave functions by wavegen leads to a relatively (relative to the value of the wave function at this r) significant (and unphysical) jump in the potential.
-	As this only happens at higher r (>5 Angstrom), where the potential is small anyways, it is assumed, that this doesn't lead to a significant error
 + When compared to the GOS tables used by Gatan's EELS Analysis (2.3.2) there is a significant qualitative difference in the GOSs, while the overall shape is very similar.
-	The difference appears to be stronger for higher l, though this hasn't been tested rigorously. It is unclear where this stems from.
+	The difference appears to be stronger for higher l, though this hasn't been tested rigorously.
++  Mesh sizes of mmax=2^14 or higher lead to issues in wavegen.
 
 ## Bibliography
-[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 <!---TODO: Add link to AG Website as soon as thesis is up-->  
-[2] Hamann, Phys.Rev. B 40 (1989), 2980  
+[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 (soon available at [https://www.uni-muenster.de/Physik.PI/Kohl/pub.html](https://www.uni-muenster.de/Physik.PI/Kohl/pub.html)) <!---TODO: Add specific link as soon as thesis is up-->  
+[2] D. R. Hamann, Phys.Rev. B 40 (1989), 2980 [https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980)  
 [3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174, <!--- TODO: Citation from proceedings journal -->
 	Calculation of relativistic differential cross-sections for use in microanalysis. Abstract available at [https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf)  
+[4] P. Koval,  J. D. Talman, Comp. Phys. Comm 180-2 (2009), 332-338 [https://www.sciencedirect.com/science/article/pii/S0010465508003329](https://www.sciencedirect.com/science/article/pii/S0010465508003329)  
+&nbsp;&nbsp; v2: [https://data.mendeley.com/datasets/y294ttxyw4/1](https://data.mendeley.com/datasets/y294ttxyw4/1)  
+&nbsp;&nbsp; v3: [https://data.mendeley.com/datasets/m3fc83rytv/1]( https://data.mendeley.com/datasets/m3fc83rytv/1)  
