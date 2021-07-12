@@ -3,7 +3,6 @@
 #include<cmath>
 #include<cassert>
 #include<vector>
-#include <fstream> //TODO remove
 
 //This is a program to run an example of the spherical Bessel transformation also known as the hankel transformation.
 //The original version is NumSBT (aanz_v2), which was written in Fortran90 and published by Peter Koval and J.D. Talman in Computer Physics Communications in 2010. (CPC license)
@@ -13,13 +12,13 @@
 
 //The multithreading possibilities implemented in the original program are not incorporated here.
 //there might be reason to implement them later
-//on a very basic machine using multithreding lead to the time required for the transform to be decreased by about half.
-//depending on the parameters used this might or might not make a significant difference in the overall run-time of goscalc.
+//on one machine use of multithreding lead to the time required for the transform to be decreased by about half.
+//depending on the parameters used this might or might not make a significant difference in the overall run-time of goscalc (and wavegen).
 
 //samples should preferably be a power of 2
 //currently an extrapolation to a lattice double the original size is used.
 	//This might not be necessary as the wave functions in the waveup-file approach 0 fast enough.
-//TODO change unsigned ints into size_t (better style) (here and in hankel_trafo.hpp)
+//TODO possibly change unsigned ints into size_t (better style) (here and in hankel_trafo.hpp)
 
 //ff is the input function f(r)
 //rr is the input mesh of f(r)
@@ -119,7 +118,7 @@ namespace{
 Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_max_con, const double k_max_con) :
         l_max(l_max_con>2 ? l_max_con : 2), //l_max needs to be at least 2 to prevent crashes
         rr_fixed(rr),
-        samples(static_cast<unsigned int>(rr.size())), //TODO casts size_t to unsigned int. => change samples, samples2 into size_t
+        samples(static_cast<unsigned int>(rr.size())), // casts size_t to unsigned int. => change samples, samples2 into size_t
         samples2(2*samples),
         rhomin_fixed(std::log(rr_fixed[0])),
         rhomax_fixed(std::log(rr_fixed[samples-1])) {
@@ -397,7 +396,6 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
 
     // Make the calculation for LARGE k values extend the input
     // to the doubled mesh, extrapolating the input as C r^(np+li)
-    //std::ofstream outFileR("test_output_r.txt"); //TODO remove; just replaces the file a bunch of times, but that's fine, I can just test for the last occurance
     for(unsigned int i=0; i<samples; ++i){
       r2c_in[i] = bigC * premult[i] * std::pow(smallr[i], constants::np + li);
     }
@@ -405,10 +403,6 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
       r2c_in[i] = premult[i]*ff[i-samples];
 
     }
-    for(unsigned int i=0; i<samples; ++i){
-      //outFileR << ff[i] << "\n"; //TODO remove
-    }
-    //outFileR << smallr[i] << "\n"; //TODO remove
     
     fftw_execute(plan_r2c);
 
@@ -443,22 +437,13 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
     fftw_execute(plan_r2c);
     for(unsigned int i=0; i<samples+1; ++i){
       c2r_in[i] = conj(r2c_out[i]) * mult_table2[i][li];
-      //outFileR << real(c2r_in[i]) << "\n"; //TODO remove
-      //outFileI << imag(c2r_in[i]) << "\n"; //TODO remove
     }
-    // testing start; TODO: remove:
-/*
-    #include <fstream>
-    std::ofstream outFile("test_output.txt");
-    for (const auto &test_v_elem.real : c2r_in) outFile << test_v_elem << "\n";
-*/
-    // testing end
     fftw_execute(plan_c2r);
     for(unsigned int i=0; i<samples; ++i){ //was 2 seperate loops in fortran
       c2r_out[i] = c2r_out[i] * dr;
       r2c_in[i] = fabs(gg[i] - c2r_out[i]);
     }
-    kdiv = 0; //Position of minimal value in r2c_in 	TODO change to size_t
+    kdiv = 0; //Position of minimal value in r2c_in
     for(unsigned int i=0; i<samples; ++i){
       if(r2c_in[i]<r2c_in[kdiv]){
           kdiv = i;

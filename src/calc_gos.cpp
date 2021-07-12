@@ -7,9 +7,6 @@
 
 #include"goscalc_constants.hpp"
 
-#include<fstream> //TODO remove
-#include <iostream> //TODO remove
-
 
 std::vector<double> calc_energy_losses(const Goscalc_shared_data& gsd){
   const unsigned no_energy_losses = gsd.cd.energy_free_steps+1;
@@ -26,8 +23,6 @@ std::vector<double> calc_energy_losses(const Goscalc_shared_data& gsd){
 
 Value_pairs calculate_gos(unsigned int index_eloss, Hankel_trafo& trafo_plan, const Goscalc_shared_data& gsd){
   const unsigned int l = gsd.cd.l_bound;
-
-
   Value_pairs result;
 
   for (unsigned int lfree=0; lfree<gsd.free_waves[index_eloss].size(); lfree++){
@@ -37,22 +32,9 @@ Value_pairs calculate_gos(unsigned int index_eloss, Hankel_trafo& trafo_plan, co
     int lower_valid_lambda = std::abs(static_cast<int>(lfree-l));
     int upper_valid_lambda = static_cast<int>(lfree+l);
 
-
-    //std::cout << "lfree: " << gsd.free_waves[index_eloss].size()-1 << "\n";
-    if (index_eloss == 8 && lfree==15){ //TODO remove
-      std::ofstream outFile("test_output_calcgos.txt"); //remove; just replaces the file a bunch of times, but that's fine, I can just test for the last occurance
-      const std::vector<double> output = integrand.column_as_vector(1); //remove
-      for(unsigned int i=0; i<output.size(); ++i){
-        outFile << output[i] << "\n"; //remove
-      }
-      std::cout << ".. : " << consttest << "\n";
-    }
-
-
-
     for (int lambda = lower_valid_lambda; lambda<=upper_valid_lambda; lambda++){
-      double wigner_symb = WignerSymbols::wigner3j(lfree,lambda,l,0,0,0);
-      if (wigner_symb == 0.){continue;} //TODO comparing doubles with == is bad practice
+      double wigner_symb = WignerSymbols::wigner3j(lfree,lambda,l,0,0,0); //values seem to be in [-1,1]
+      if (std::abs(wigner_symb) <= 1.E-10){continue;}
 
       const Value_pairs rad_int = trafo_plan.perform_hankel_trafo(integrand.column_as_vector(1), static_cast<unsigned int>(lambda));
 
@@ -61,63 +43,12 @@ Value_pairs calculate_gos(unsigned int index_eloss, Hankel_trafo& trafo_plan, co
       } else {
         result += (2*lfree+1)*(2*lambda+1)*pow(wigner_symb,2)*rad_int*rad_int;
       }
-
     }
   }
-
-
-
 
   const arma::colvec inv_q2 = arma::pow(result.column_as_colvec(0),-2);
   const double energy_loss = gsd.results_energy_losses[index_eloss];
   const arma::colvec prefactor = cst::m_e2dhbarh2*energy_loss*inv_q2; //unitless(!)
-
-
-
-
   return prefactor*result;
-
-
 }
-
-/*For testing purposes (by pasting at the appropriate positions into the above)
-
-#include<fstream> 
-#include<vector>
-
-and use the following to put out a table for a specific energy loss and free l:
-to create a table:
-    if(index_eloss==0&&lfree==3){
-      board = std::vector<std::vector<double>>(integrand.size()+1, std::vector<double>(upper_valid_lambda - lower_valid_lambda + 1));
-    }
-to fill the table:
-      if(index_eloss==0 && lfree==3){
-        //output = rad_int.column_as_vector(1);
-        //board[0][lambda-lower_valid_lambda] = lambda; //uninitialisiert (0) für wigner=0
-        //for(unsigned int i=1; i<output.size()+1; ++i){
-          //board[i][lambda-lower_valid_lambda] = output[i-1];
-        //}
-        std::ofstream ofsin ("input.dat", std::ofstream::out);
-        gsd.free_waves[0][0].column_as_colvec(1).raw_print(ofsin);
-        ofsin.close();
-      }
-to export the table to a file:
-  if(index_eloss==0){
-    //std::ofstream ofs ("test_sbt.txt", std::ofstream::out);
-    //for(unsigned int i=0; i<board.size(); ++i){
-      //for(unsigned int j=0; j<board[0].size(); ++j){
-        //ofs << board[i][j];
-        //if(j<board[0].size()-1){ofs << "\t";}
-      //}
-      //ofs << "\n";
-    //}
-    //ofs.close();
-    //std::ofstream ofs2 ("result.txt", std::ofstream::out);
-    //result.column_as_colvec(1).raw_print(ofs2);
-    //ofs2.close();
-    std::ofstream ofsr ("r.dat", std::ofstream::out);
-    gsd.free_waves[0][0].column_as_colvec(0).raw_print(ofsr);
-    ofsr.close();
-  }
-*/
 

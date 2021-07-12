@@ -15,7 +15,7 @@
 ///Convert values of the bound wave function of the atomic electron to appropriate units
 /*!
  * _wavegen_ outputs the wave function resulting from the DFT calculation (which is assumed to be stored in \p tsd)
- * as \f$u = R/r\f$, where \f$r\f$ is the distance from the nucleus and \f$R\f$ is the radial wave function.
+ * as \f$u = R*r\f$, where \f$r\f$ is the distance from the nucleus and \f$R\f$ is the radial wave function.
  * This function (_prepare_bound_wave_) obtains \f$R\f$ by multiplying the results of _wavegen_ with \f$r\f$.
  * It then converts \f$R\f$ from atomic units to Angstrom.
  */

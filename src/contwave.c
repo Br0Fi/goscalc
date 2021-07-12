@@ -1,7 +1,8 @@
-//additions for compatibility with transpot:
+//additions for compatibility:
 #include"besselgen.c"
 
 #include <stdexcept>
+
 
 using namespace std;
 
@@ -113,6 +114,9 @@ void contwave(double amesh,int emax,int llmax, double einc,double emin,int mmax,
                cf[j]=als*sls + 2.*als*(atompot[j]-energy)*rr[j]*rr[j];
 //                cf[j]=als*sls + 2.*als*(0.-energy)*rr[j]*rr[j];
             }
+
+
+
 
             //calculate dv/dr for darwin correction
             dv[0]=(-50.*atompot[0]+96.*atompot[1]-72.*atompot[2]+32.*atompot[3]-6.*atompot[4])/(24.*al*rr[0]);

@@ -32,6 +32,7 @@ struct Config_data{
 
 	double amesh;									///<amesh parameter used in the calculation of the wave function of the free atomic electron (see wavegen_mod)
 	unsigned int atomic_number;						///<Amount of protons in the nucleus (from DFT file)
+    //the atomic number is currently only used in main.cpp to give the corresponding element symbol to the log.
 	double bound_energy;             				///<Energy of the bound atomic electron (from DFT file)
 	Value_pairs bound_wavefunction;	                ///<xy-value of the wave function of the bound atomic electron (from DFT file)
 	Value_pairs potential;					        ///<xy-values of the atomic potential (from DFT file)

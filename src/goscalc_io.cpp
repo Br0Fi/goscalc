@@ -7,9 +7,11 @@
 #include<armadillo>
 #include<boost/property_tree/ptree.hpp>
 #include<boost/property_tree/json_parser.hpp>
+// currently (2021-07-12) causes compiler warning, seems to be issue with boost's json_parser:
+// see https://github.com/boostorg/property_tree/issues/51
 #include<boost/format.hpp>
 #include<boost/math/special_functions/round.hpp>
-#include <boost/algorithm/string.hpp>
+#include<boost/algorithm/string.hpp>
 
 #include"path_switcher.hpp"
 #include"goscalc_constants.hpp"
@@ -124,9 +126,16 @@ namespace{
 
 
 	void set_amesh(Config_data& cd){
-		const double at_num = static_cast<double>(cd.atomic_number);
-		const double pot_size = static_cast<double>(cd.potential.size());
-		cd.amesh = pow(45.*160.*at_num, 1./pot_size);
+    //hard-coded version, dependend on implementation in wavegen.f:
+		//const double at_num = static_cast<double>(cd.atomic_number);
+		//const double pot_size = static_cast<double>(cd.potential.size());
+		//cd.amesh = pow(45.*160.*at_num, 1./pot_size);
+    //better, dynamic version:
+    const double rmax = cd.bound_wavefunction(static_cast<unsigned int>(cd.potential.size())-1, 0);
+    const double rmin = cd.bound_wavefunction(0,0);
+    const double pot_size = static_cast<double>(cd.potential.size());
+    cd.amesh = std::pow((rmax/rmin), 1/(pot_size-1));
+    // = exp(dr) with dr = ln(rmax/rmin)/(mmax-1)
 	}
 
 
