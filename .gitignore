@@ -10,7 +10,3 @@
 
 !.gitignore
 build/*
-autogen*
-wavegen_mod/legacy
-wavegen_mod/notes.txt
-
