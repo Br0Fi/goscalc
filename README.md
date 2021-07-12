@@ -67,6 +67,7 @@ Compile wavegen_mod with:
 ```bash
     ./wavegen
 ```
++ ignore the warning about floating point exceptions (unclear, but doesn't seem to matter)
 + place the waveup.dat file in the same directory as the config.json and the goscalc executable
 + fill in config.json with the desired parameters and the output directory name
     + the config.json looks like this:
@@ -101,6 +102,8 @@ Compile wavegen_mod with:
 ```bash
     ./goscalc /path/to/config.json
 ```
+
++ The mesh goscalc uses is the one given by wavegen (and the reciprocal lattice is inferred in combination with max_kvalue_Ang in config.json, see above). To change the number of mesh points or the mesh parameter you have to edit the parameters mmax and rmax, respectively, in wavegen_mod.f. Mesh sizes of mmax=2^14 or more lead to issues in wavegen. If this is necessary, increasing the maximum number of iterations might help.
 
 ### Output:
 	The output directory includes a copy of the config file, the command line log,

@@ -14,7 +14,6 @@
 //there might be reason to implement them later
 //on one machine use of multithreding lead to the time required for the transform to be decreased by about half.
 //depending on the parameters used this might or might not make a significant difference in the overall run-time of goscalc (and wavegen).
-
 //samples should preferably be a power of 2
 //currently an extrapolation to a lattice double the original size is used.
 	//This might not be necessary as the wave functions in the waveup-file approach 0 fast enough.
@@ -152,13 +151,13 @@ Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_m
                   fftw_malloc(samples2 * sizeof(double)*2));
         temp2 = reinterpret_cast<std::complex<double>*>(
                   fftw_malloc(samples2 * sizeof(double)*2));
-        r2c_in = reinterpret_cast<double*>(                 //real
+        r2c_in = reinterpret_cast<double*>( //real, size = nr*2
                   fftw_malloc((samples2)*sizeof(double)));
-        r2c_out = reinterpret_cast<std::complex<double>*>(  //complex
+        r2c_out = reinterpret_cast<std::complex<double>*>( //complex, size = nr+1
                     fftw_malloc((samples2 + 2)*sizeof(double)));
-        c2r_in = reinterpret_cast<std::complex<double>*>(   //complex
+        c2r_in = reinterpret_cast<std::complex<double>*>( //complex, size = nr+1
                     fftw_malloc((samples2 + 2)*sizeof(double)));
-        c2r_out = reinterpret_cast<double*>(                //real
+        c2r_out = reinterpret_cast<double*>( //real, size = nr*2
                     fftw_malloc(samples2*sizeof(double)));
 
         //check for NULL pointers:
@@ -266,6 +265,7 @@ Hankel_trafo::Hankel_trafo(const std::vector<double>& rr, const unsigned int l_m
           premult[samples-i-1] = premult[samples-i]/factor;
         }
         */
+
 
         //Obtain the values 1/k_i^1.5 in the array postdivide
         postdiv[0] = (constants::with_sqrt_pi_2 ? 1.0/sqrt(M_PI/2) : 1.0);
@@ -401,9 +401,7 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
     }
     for(unsigned int i=samples; i<samples2; ++i){
       r2c_in[i] = premult[i]*ff[i-samples];
-
     }
-    
     fftw_execute(plan_r2c);
 
     // obtain the large k results in the vector gg
@@ -425,7 +423,7 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
         r2c_in[i] = sbt_rr3[i] * ff[i];
       }
     }
-    else{	
+    else{
       for(unsigned int i=0; i<samples; ++i){
         r2c_in[i] = sbt_kk3[i] * ff[i];
       }
@@ -435,6 +433,7 @@ Value_pairs Hankel_trafo::perform_hankel_trafo(const std::vector<double>& ff, co
       r2c_in[i] = 0.0;
     }
     fftw_execute(plan_r2c);
+
     for(unsigned int i=0; i<samples+1; ++i){
       c2r_in[i] = conj(r2c_out[i]) * mult_table2[i][li];
     }
