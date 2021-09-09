@@ -165,16 +165,11 @@ c
 c define maximal meshpoints mmax, with r(mmax=4608)=45au
 c original contribution for mmax from the program atom.f
 c      mmax=dlog(7200.0d0*z)/al
-	  mmax=2**11
+	  mmax=2**13
 	  rmax=45.
 	  amesh=(rmax*160.*z)**(1./mmax)
-c TODO set mmax appropriately after issue has been resolved
+c TODO set mmax appropriately (reduce it) after issue for mmax<2**13 has been resolved
 c rmax gives the maximum r of the lattice
-c rmax = 30. leads to strange results from GOScalc (!?)
-c mesh should be large enough at 45au for sure even for very heavy atoms
-c difference in rmax results in no meaningful difference in the output, though for very heavy atoms rmax should atleast be >=30.
-c not tested: difference in results of goscalc depending on rmax (rmax=30. lead to strange results at one point)
-c there is another parameter mm below for some sort of extended mesh. This has to be mm>>1024 (e.g. 8192) for convergence.
 c mmax<8192 is still possible and reduces computation time greatly.
 	  al=dlog(amesh)
 	  write(6,*)'Zahl der Netzpunkte (mmax) =',mmax
