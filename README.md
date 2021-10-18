@@ -4,7 +4,7 @@
 
 This is a program to calculate the total generalized oscillator strength for a certain (sub-)orbital.
 For specific information refer to [1] (German).
-The project was taken over from Dr. Stephan Müller.
+The project was taken over from Dr. Stephan Majert.
 The additional program Wavegen is based on [2] and was provided by Prof. Krüger, who modified it together with M.Frigge [3].  
 The Hankel transformation in hankel_trafo.cc is an adapted version of NumSBT (aanz_v2), which was written in Fortran90 and published as [4].  
 
