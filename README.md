@@ -6,7 +6,7 @@ This is a program to calculate the total generalized oscillator strength for a c
 For specific information refer to [1] (German).
 The project was taken over from Dr. Stephan Majert.
 The additional program Wavegen is based on [2] and was provided by Prof. Krüger, who modified it together with M.Frigge [3].  
-The Hankel transformation in hankel_trafo.cc is an adapted version of NumSBT (aanz_v2), which was written in Fortran90 and published as [4].  
+The Hankel transformation in hankel_trafo.cc is an adapted version of NumSBT (aanz_v2/aanz_v3), which was written in Fortran90 and published as [4].  
 
 ## Installation and compiling (Linux systems):
 Libraries used: Armadillo (requiring standard BLAS+LAPACK or OpenBLAS), FFTW, Boost, WignerSymbols. WignerSymbols can be found [here](https://github.com/joeydumont/wignerSymbols)<!--- TODO: is superlu needed?-->  
@@ -122,6 +122,6 @@ You can check your results, by comparing them to the output files given in eleme
 [2] D. R. Hamann, Phys.Rev. B 40 (1989), 2980 [https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980)  
 [3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174, <!--- TODO: Citation from proceedings journal -->
 	Calculation of relativistic differential cross-sections for use in microanalysis. Abstract available at [https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf)  
-[4] P. Koval,  J. D. Talman, Comp. Phys. Comm 180-2 (2009), 332-338 [https://www.sciencedirect.com/science/article/pii/S0010465508003329](https://www.sciencedirect.com/science/article/pii/S0010465508003329)  
+[4] P. Koval,  J. D. Talman, Comp. Phys. Comm 181:12 (2009), 2212 [https://www.sciencedirect.com/science/article/pii/S0010465510003188](https://www.sciencedirect.com/science/article/pii/S0010465510003188)  
 &nbsp;&nbsp; v2: [https://data.mendeley.com/datasets/y294ttxyw4/1](https://data.mendeley.com/datasets/y294ttxyw4/1)  
 &nbsp;&nbsp; v3: [https://data.mendeley.com/datasets/m3fc83rytv/1]( https://data.mendeley.com/datasets/m3fc83rytv/1)  

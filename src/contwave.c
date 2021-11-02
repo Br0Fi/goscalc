@@ -1,3 +1,5 @@
+//TODO what to do with the license here?
+
 //additions for compatibility:
 #include"besselgen.c"
 
