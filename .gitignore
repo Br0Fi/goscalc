@@ -5,6 +5,8 @@
 !*.*
 # Unignore all dirs
 !*/
+# Unignore license files
+!LICENSE*
 
 !.gitignore
 build/*
