@@ -1,6 +1,6 @@
 {
 	"dft_filename": "waveup.dat",
-	"output_dir_name": "Y",
+	"output_dir_name": "Nb",
 	"n_bound": 3,
 	"l_bound": 2,
 	"max_considered_lfree": 15,
