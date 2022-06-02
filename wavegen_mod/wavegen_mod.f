@@ -6,8 +6,13 @@ c with a scalar-relativistic Hamilton operator
 c
 c   Based on a program written by
 c   D. R. Hamann
+c   This program is provided with explicit permission by Don Hamann
+c   For more information see: D. R. Hamann, Phys.Rev. B 40 (1989), 2980
+c    -> https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980
 c
-c
+c   For anyone interested: This is available in a more modern form
+c   in the ONCVPCP project and with a fully-relativistic version here:
+c   http://www.mat-simresearch.com/
 c
       implicit none
       double precision al, alam, amesh, csc, csc1, dmax1, drl
