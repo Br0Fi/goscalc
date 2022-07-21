@@ -109,8 +109,9 @@ The directories  XY_cfg contain the config files for wavegen (wavegen.dat) and g
 You can check your results, by comparing them to the output files given in element_configs/XY
 
 ### Restrictions:
-+ GOS for ions can not be calculated, because their atomic potential does not fall off to zero within the mesh given by wavegen (or at all, technically), but contwace.c requires this.
-+ the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons.
++ GOS for ions can not be calculated, because their atomic potential does not fall off to zero within the mesh given by wavegen (or at all, technically), but contwace.c woulrd require this.
++ the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons. mmax=8192 is recommended.
++ calculations for summands with high resulting angular momentum l' can cause numerical issues even for high mmax (presumably caused by the oscillation period in the continuum wave functions being faster than the lattice point distances). This doesn't seem to negatively influence the end rusult, because these summands vanish against the summands at low l'.
 
 ## Known Issues:
 + When compared to the GOS tables used by Gatan's EELS Analysis (2.3.2) there is a significant qualitative difference in the GOSs, while the overall shape is very similar.
@@ -118,9 +119,9 @@ You can check your results, by comparing them to the output files given in eleme
 +  Mesh sizes of mmax=2^14 or higher lead to issues in wavegen.
 
 ## Bibliography
-[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 (soon available at [https://www.uni-muenster.de/Physik.PI/Kohl/pub.html](https://www.uni-muenster.de/Physik.PI/Kohl/pub.html)) <!---TODO: Add specific link as soon as thesis is up-->  
+[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 (available [here](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/abschlussarbeiten/lsegger-bsc-arbeit.pdf) or [https://www.uni-muenster.de/Physik.PI/Kohl/pub.html](https://www.uni-muenster.de/Physik.PI/Kohl/pub.html))
 [2] D. R. Hamann, Phys.Rev. B 40 (1989), 2980 [https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980)  
-[3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174, <!--- TODO: Citation from proceedings journal -->
+[3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174,
 	Calculation of relativistic differential cross-sections for use in microanalysis. Abstract available at [https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf)  
 [4] P. Koval,  J. D. Talman, Comp. Phys. Comm 181:12 (2009), 2212 [https://www.sciencedirect.com/science/article/pii/S0010465510003188](https://www.sciencedirect.com/science/article/pii/S0010465510003188)  
 &nbsp;&nbsp; v2: [https://data.mendeley.com/datasets/y294ttxyw4/1](https://data.mendeley.com/datasets/y294ttxyw4/1)  
