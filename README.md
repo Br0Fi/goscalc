@@ -105,7 +105,7 @@ Compile wavegen_mod with:
 
 ### Example files:
 element_configs contains some example configuration files to use with wavegen and goscalc for different elements XY.
-The directories  XY_cfg contain the config files for wavegen (wavegen.dat) and goscalc (config.json) as well as the resulting wavefunctions calculated by wavegen (waveup.dat).  
+The directories  XY_cfg contain the config files for wavegen (wavegen.dat) and goscalc (config.json) as well as the resulting wavefunctions calculated by wavegen (waveup.dat).
 You can check your results, by comparing them to the output files given in element_configs/XY
 
 ### Restrictions:
@@ -119,7 +119,7 @@ You can check your results, by comparing them to the output files given in eleme
 +  Mesh sizes of mmax=2^14 or higher lead to issues in wavegen.
 
 ## Bibliography
-[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 (available [here](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/abschlussarbeiten/lsegger-bsc-arbeit.pdf) or [https://www.uni-muenster.de/Physik.PI/Kohl/pub.html](https://www.uni-muenster.de/Physik.PI/Kohl/pub.html))
+[1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 (available [here](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/abschlussarbeiten/lsegger-bsc-arbeit.pdf) or [https://www.uni-muenster.de/Physik.PI/Kohl/pub.html](https://www.uni-muenster.de/Physik.PI/Kohl/pub.html))  
 [2] D. R. Hamann, Phys.Rev. B 40 (1989), 2980 [https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980)  
 [3] Frigge, Kohl, Krüger, Microscopy Conference 2011 (Kiel), IM5.P174,
 	Calculation of relativistic differential cross-sections for use in microanalysis. Abstract available at [https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/mc2011/im5_p175.pdf)  
