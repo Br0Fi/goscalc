@@ -111,13 +111,8 @@ You can check your results, by comparing them to the output files given in eleme
 
 ### Restrictions:
 + GOS for ions can not be calculated, because their atomic potential does not fall off to zero within the mesh given by wavegen (or at all, technically), but contwace.c woulrd require this.
-+ the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons. mmax=8192 is recommended.
++ the number of mesh points is hard coded into wavegen. It can be changed by changing mmax. It should probably be a power of 2, if not just for efficiency reasons. mmax=8192 is recommended. Higher mesh sizes lead to issues in wavegen
 + calculations for summands with high resulting angular momentum l' can cause numerical issues even for high mmax (presumably caused by the oscillation period in the continuum wave functions being faster than the lattice point distances). This doesn't seem to negatively influence the end rusult, because these summands vanish against the summands at low l'.
-
-## Known Issues:
-+ When compared to the GOS tables used by Gatan's EELS Analysis (2.3.2) there is a significant qualitative difference in the GOSs, while the overall shape is very similar.
-	The difference appears to be stronger for higher l, though this hasn't been tested rigorously.
-+  Mesh sizes of mmax=2^14 or higher lead to issues in wavegen.
 
 ## Bibliography
 [1] Leonhard Segger, Berechnung generalisierter Oszillatorenstärken für die Quantifizierung von EEL-Spektren, Bachelorarbeit, WWU-Münster 2019 (available [here](https://www.uni-muenster.de/imperia/md/content/physik_pi/kohl/abschlussarbeiten/lsegger-bsc-arbeit.pdf) or [https://www.uni-muenster.de/Physik.PI/Kohl/pub.html](https://www.uni-muenster.de/Physik.PI/Kohl/pub.html))  
