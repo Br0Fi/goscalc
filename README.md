@@ -7,6 +7,7 @@ For specific information refer to [1] (German).
 The project was taken over from Dr. Stephan Majert.
 The additional program Wavegen is based on [2] and was provided by Prof. Krüger, who modified it together with M.Frigge [3].  
 The Hankel transformation in hankel_trafo.cc is an adapted version of NumSBT (aanz_v2/aanz_v3), which was written in Fortran90 and published at [4].  
+The calculation of the spherical Bessel  functions is based on [5] and was adopted by M. Frigge.
 
 ## Installation and compiling (Linux systems):
 Libraries used: Armadillo (requiring standard BLAS+LAPACK or OpenBLAS), FFTW, Boost, WignerSymbols. WignerSymbols can be found [here](https://github.com/joeydumont/wignerSymbols)<!--- TODO: is superlu needed?-->  
@@ -126,3 +127,6 @@ You can check your results, by comparing them to the output files given in eleme
 [4] P. Koval,  J. D. Talman, Comp. Phys. Comm 181:12 (2009), 2212 [https://www.sciencedirect.com/science/article/pii/S0010465510003188](https://www.sciencedirect.com/science/article/pii/S0010465510003188)  
 &nbsp;&nbsp; v2: [https://data.mendeley.com/datasets/y294ttxyw4/1](https://data.mendeley.com/datasets/y294ttxyw4/1)  
 &nbsp;&nbsp; v3: [https://data.mendeley.com/datasets/m3fc83rytv/1]( https://data.mendeley.com/datasets/m3fc83rytv/1)  
+[5] R.W.B. Ardill, K.J.M. Moriarty, Comp. Phys. Comm. 14:3 (1978), 261 [https://www.sciencedirect.com/science/article/pii/001046557890019X](https://www.sciencedirect.com/science/article/pii/001046557890019X) ; code available [here](https://elsevier.digitalcommonsdata.com/datasets/4xknjgbmhy)  
+
+
