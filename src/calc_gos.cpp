@@ -32,7 +32,7 @@ std::vector<double> calc_energy_losses(const Goscalc_shared_data& gsd){
   const unsigned no_energy_losses = gsd.cd.energy_free_steps+1;
   std::vector<double> energy_losses(no_energy_losses);
   for (unsigned int i_e = 0; i_e < no_energy_losses; i_e++){
-    const double energy_free = gsd.cd.energy_free_start+i_e*gsd.cd.energy_free_increase;
+    const double energy_free = gsd.cd.energy_free_start*pow(gsd.cd.energy_free_increase,i_e);
     energy_losses[i_e] = abs(gsd.cd.bound_energy) + energy_free;
   }
 

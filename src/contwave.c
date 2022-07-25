@@ -120,12 +120,12 @@ void contwave(double amesh,int emax,int llmax, double einc,double emin,int mmax,
     }
 
     //convert energy from eV to Hartree;	1eV /(2* 13.605eV)=0.036749325 (Hartree)
-    einc=einc*0.036749325;
+    //einc=einc*0.036749325;
     emin=emin*0.036749325;
 
     for(int l=0; l<=llmax; l++){
         for(int e=0; e<=emax; e++){
-            energy=e*einc+emin;//in Hartree
+            energy=emin*pow(einc,e);//in Hartree
             //fss=0.;
             gamma=l+1.;
             sls=l*(l+1.);

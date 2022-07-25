@@ -80,7 +80,7 @@ int main(int argc, char* argv[]){
 	auto ini_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(ini_time-start_time);
 	logg::out()<<"Initialization time was "<<ini_elapsed.count()<<" milliseconds.\n";
 	for (unsigned int i_e = 0; i_e<no_energy_losses; i_e++){
-		const double e_free = gsd.cd.energy_free_start+i_e*gsd.cd.energy_free_increase;
+		const double e_free = gsd.cd.energy_free_start*pow(gsd.cd.energy_free_increase,i_e);
 		logg::out()<<"working on free energy "<<e_free<<"eV...\n";
 		gsd.results_gos[i_e] =  calculate_gos(i_e, trafo_plan, gsd)*electrons_in_shell;
 	}

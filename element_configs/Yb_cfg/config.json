@@ -4,8 +4,8 @@
 	"n_bound": 4,
 	"l_bound": 2,
 	"max_considered_lfree": 15,
-	"energy_free_start": 17.7,
-	"energy_free_steps": 8,
-	"energy_free_increase": 40,
+    "energy_free_start": 0.2,
+    "energy_free_steps": 96,
+    "energy_free_increase": 1.1,
 	"max_kvalue_Ang": 70
 }
