@@ -11,8 +11,9 @@ c   For more information see: D. R. Hamann, Phys.Rev. B 40 (1989), 2980
 c    -> https://journals.aps.org/prb/abstract/10.1103/PhysRevB.40.2980
 c
 c   For anyone interested: This is available in a more modern form
-c   in the ONCVPCP project and with a fully-relativistic version here:
-c   http://www.mat-simresearch.com/
+c   in the ONCVPCP project including a fully-relativistic version here:
+c   http://www.mat-simresearch.com/   (use 4.0.1)
+c
 c
       implicit none
       double precision al, alam, amesh, csc, csc1, dmax1, drl
