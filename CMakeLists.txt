@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project("GOScalc" LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -22,7 +22,8 @@ set(SOURCES main.cpp
 			goscalc_io.hpp				goscalc_io.cpp
 			value_pairs.hpp				value_pairs.cc
 			hankel_trafo.hpp			hankel_trafo.cc
-			calc_gos.hpp				calc_gos.cpp)
+			calc_gos.hpp				calc_gos.cpp
+      conwave.c)
 set(SOURCES_ABS)
 foreach (source ${SOURCES})
 	list(APPEND SOURCE_ABS ${PROJECT_SOURCE_DIR}/src/${source})
@@ -43,6 +44,7 @@ target_compile_definitions(goscalc PRIVATE VERSION="${VERSION}")
 set(RELEASE_FLAGS -Ofast -march=native)
 set(DEBUG_FLAGS -Wall -Wextra -Wconversion -Wpedantic -Ofast -march=native)
 set(DEBUG_GDB_FLAGS -Wall -Wextra -Wconversion -Wpedantic -g -O0) # -fsanitize=address -Wfloat-equal) #gdb; file goscalc; run;
+#set(DEBUG_GDB_FLAGS -Wall -Wextra -Wconversion -Wpedantic -g -O0 -fsanitize=address -Wfloat-equal) #gdb; file goscalc; run;
 set(PROFILE_FLAGS -Ofast -march=native -pg -no-pie) #after execution: gprof ./goscalc > profile.txt
 #set_target_properties(goscalc PROPERTIES LINK_FLAGS "-pg -no-pie") #necessary for profile build
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )

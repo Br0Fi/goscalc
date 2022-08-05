@@ -17,9 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-//additions for compatibility:
-#include"besselgen.c"
 
+#include <cmath>
 #include <stdexcept>
 
 
@@ -71,9 +70,11 @@ double aio(vector<double> &y,int &j){
     output=(4.16666666667e-2)*(9.*y[j+1]+19.*y[j]-5.*y[j-1]+y[j-2]);
     return output;
 }
+bool approx_equal(double x, double y, double precision=1.0e-10){
+  return(fabs(x-y)<precision);
+}
 
 //******************  decalaration of fuctions  ********************************
-double SPHFUN(int N, double X,double &neumann);
 
 //calculation of continuum radial wavefunctions
 void contwave(double amesh,int emax,int llmax, double einc,double emin,int mmax,
@@ -198,9 +199,13 @@ void contwave(double amesh,int emax,int llmax, double einc,double emin,int mmax,
             else{//for l>0
 
                 // calculate spherical bessel- and neumannfunctions
-                bessel[0]=SPHFUN(l,q*rr[fitpoint+1],neumann[0]);
-                bessel[1]=SPHFUN(l, qr,neumann[1]);
-                bessel[2]=SPHFUN(l, q*rr[fitpoint-1],neumann[2]);
+                bessel[0] =  sph_bessel (l, q*rr[fitpoint+1]);
+                neumann[0] = sph_neumann(l, q*rr[fitpoint+1]);
+                bessel[1] =  sph_bessel (l, qr);
+                neumann[1] = sph_neumann(l, qr);
+                bessel[2] =  sph_bessel (l, q*rr[fitpoint-1]);
+                neumann[2] = sph_neumann(l, q*rr[fitpoint-1]);
+                
                 dbessel=(bessel[0]-bessel[2])/
                         (rr[fitpoint+1]-rr[fitpoint-1]);
                 dneumann=(neumann[0]-neumann[2])/

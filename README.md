@@ -13,7 +13,6 @@ The project was taken over from Dr. Stephan Majert.
 The additional program Wavegen is based on [Hamann1989] and was provided by Prof. Krüger, who modified it together with M.Frigge [Frigge-MC2011].
 A more modern version (and also a fully relativistic version) of this is available at [http://www.mat-simresearch.com/ ](http://www.mat-simresearch.com/) as part of the ONCVPSP project (use 4.0.1).   
 The Hankel transformation in hankel_trafo.cc is an adapted version of NumSBT (aanz_v2/aanz_v3), which was written in Fortran90 and published at [Koval2009].  
-The calculation of the spherical Bessel  functions is based on [Ardill1978] and was adopted by M. Frigge.
 
 ## Pre-calculated, tabulated values
 
@@ -135,5 +134,4 @@ You can check your results, by comparing them to the output files given in eleme
 [Koval2009] P. Koval,  J. D. Talman, Comp. Phys. Comm 181:12 (2009), 2212 [https://www.sciencedirect.com/science/article/pii/S0010465510003188](https://www.sciencedirect.com/science/article/pii/S0010465510003188)  
 &nbsp;&nbsp; v2: [https://data.mendeley.com/datasets/y294ttxyw4/1](https://data.mendeley.com/datasets/y294ttxyw4/1)  
 &nbsp;&nbsp; v3: [https://data.mendeley.com/datasets/m3fc83rytv/1]( https://data.mendeley.com/datasets/m3fc83rytv/1)  
-[Ardill1978] R.W.B. Ardill, K.J.M. Moriarty, Comp. Phys. Comm. 14:3 (1978), 261 [https://www.sciencedirect.com/science/article/pii/001046557890019X](https://www.sciencedirect.com/science/article/pii/001046557890019X) ; code available [here](https://elsevier.digitalcommonsdata.com/datasets/4xknjgbmhy)  
 
