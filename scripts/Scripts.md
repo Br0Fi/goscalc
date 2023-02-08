@@ -6,7 +6,7 @@ Since this software package is not yet publicly available, it should be replaced
 
 #### goscalc_confgen.py
 
-This is used to generate the configuration files for wavegen and goscalc for a give element or edge.
+This is used to generate the configuration files for wavegen and goscalc for a given element or edge.
 
 Dependencies:
 numpy

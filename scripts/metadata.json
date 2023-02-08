@@ -1,5 +1,5 @@
 {   "name" : "Segger/Guzzinati/Kohl Generalised Oscillator Strengths",
-    "data_version":  "1.0.0",
+    "data_version":  "1.5.0",
     "data_ref": {
         "data_record": "A set of Generalised Oscillator Strengths for the simulation of EELS spectra",
         "data_doi": "10.5281/zenodo.6599071",
@@ -14,11 +14,11 @@
     "license": "CC-BY-SA",
     "message": "Data computed by G. Guzzinati using code provided by L. Segger and H. Kohl ",
     "computation_info": {
-        "code_ref":"In preparation",
+        "code_ref":"https://github.com/Br0Fi/goscalc",
         "wavefunction_simulation": "The wavefunctions are calculated self-consistently within the local density approximation using the exchange correlation potential after J. P. Perdew and A. Zunger, Phys. Rev. B 23 (1981), p. 5048. Using this atomic potential the wave function of the ejected free electron is calculated. To normalize the free wave functions they are matched to spherical Bessel and Neumann functions at large distances from the core.",
         "input_parameters": {
-            "n_bound": 3,
-            "l_bound": 1,
+            "n_bound": 1,
+            "l_bound": 0,
             "max_considered_lfree": 15,
             "energy_free_start": 0.2,
             "energy_free_steps": 96,

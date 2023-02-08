@@ -75,8 +75,8 @@ def downsample_all(folder_in, file_out):
         #    table[i] = n, ep[2], ep[3], ep[0], ep[1]
         #print("added edges notation table")
         
-        h.attrs['file_format'] = 'GOS5'
-        h.attrs['file_format_version'] = '0.7.0'
+        h.attrs['file_format'] = 'GOSH'
+        h.attrs['file_format_version'] = '0.7.2'
         group_metadata = h.create_group('metadata')
         for k, v in metadata.items():
             nest_metadata(group_metadata, k, v)
@@ -105,7 +105,7 @@ def downsample_all(folder_in, file_out):
                                         compression = 'gzip')
             v_data = edge_group.create_dataset('variants',
                                         shape = [1],
-                                        data = ['default'],
+                                        data = np.asarray(['default'], dtype='S128'),
                                         dtype = 'S128',
                                         compression = 'gzip')
             edge_metadata = edge_group.create_group('metadata')

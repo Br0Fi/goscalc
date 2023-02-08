@@ -17,5 +17,5 @@ def compute_element(Z):
                 subprocess.call('./goscalc')
         
 
-for Z in range(1,93):
+for Z in range(1,99):
     compute_element(Z)
