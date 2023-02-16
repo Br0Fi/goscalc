@@ -111,3 +111,6 @@ def downsample_all(folder_in, file_out):
             edge_metadata = edge_group.create_group('metadata')
             edge_metadata.attrs['onset'] = eonset
             print("downsampled {}, completed:{}/{}".format(edge_group_name, i, len(folders_in)))
+
+if __name__ == "__main__":
+    downsample_all('outputs', 'Segger_Guzzinati_Kohl_1.5.0.gosh')
